@@ -1,9 +1,10 @@
 "use client"
 import { useEffect, useState, useCallback } from 'react'
 import { apiGet, apiPost, apiPut, apiDelete } from '@/lib/api'
+import type { Errand } from '@/types/errand'
 
 export function useErrands() {
-  const [errands, setErrands] = useState<any[]>([])
+  const [errands, setErrands] = useState<Errand[]>([])
   const [loading, setLoading] = useState(false)
 
   const fetchErrands = useCallback(async () => {
@@ -22,22 +23,25 @@ export function useErrands() {
     fetchErrands()
   }, [fetchErrands])
 
-  async function createErrand(payload: any) {
+  async function createErrand(payload: Partial<Errand>) {
     const res = await apiPost('errands', payload)
-    setErrands((prev) => [res.created, ...prev])
-    return res.created
+    const created: Errand = res.created
+    setErrands((prev) => [created, ...prev])
+    return created
   }
 
-  async function updateErrand(id: string, payload: any) {
+  async function updateErrand(id: string, payload: Partial<Errand>) {
     const res = await apiPut('errands', payload, { id })
-    setErrands((prev) => prev.map((e) => (String(e.id) === String(id) ? res.updated : e)))
-    return res.updated
+    const updated: Errand = res.updated
+    setErrands((prev) => prev.map((e) => (String(e.id) === String(id) ? updated : e)))
+    return updated
   }
 
   async function deleteErrand(id: string) {
     const res = await apiDelete('errands', { id })
+    const removed: Errand = res.removed
     setErrands((prev) => prev.filter((e) => String(e.id) !== String(id)))
-    return res.removed
+    return removed
   }
 
   return { errands, loading, fetchErrands, createErrand, updateErrand, deleteErrand }

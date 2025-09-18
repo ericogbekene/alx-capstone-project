@@ -30,6 +30,12 @@ create table if not exists users (
 create table if not exists errands (
   id uuid primary key default gen_random_uuid(),
   poster_id uuid references users(id),
+  -- NOTE: The RLS policies example expects a `user_id` column representing the owner
+  -- and an `is_public` boolean to allow public visibility. Keep both if you plan to
+  -- use the provided RLS policies migration.
+  user_id uuid references users(id),
+  is_public boolean default true,
+  runner_id uuid references users(id),
   runner_id uuid references users(id),
   title text,
   description text,

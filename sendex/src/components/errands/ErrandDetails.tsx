@@ -1,4 +1,6 @@
-export default function ErrandDetails({ errand }: { errand: any }) {
+import type { Errand } from '@/types/errand'
+
+export default function ErrandDetails({ errand }: { errand?: Errand }) {
   if (!errand) return null
   return (
     <div className="p-4 border rounded">

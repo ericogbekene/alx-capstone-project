@@ -4,10 +4,11 @@
 import React, { useEffect, useState } from 'react'
 import { uploadImage } from '@/lib/storage'
 import { useErrands } from '@/hooks/use-errands'
+import type { Errand } from '@/types/errand'
 
 type Props = {
-  initial?: any
-  onDone?: (errand: any) => void
+  initial?: Errand
+  onDone?: (errand: Errand) => void
 }
 
 export default function ErrandForm({ initial, onDone }: Props) {
