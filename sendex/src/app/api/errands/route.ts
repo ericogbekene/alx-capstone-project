@@ -1,5 +1,18 @@
 import { NextResponse } from 'next/server'
 import { supabaseServer, hasServerSupabase } from '@/lib/supabase/server'
+import { z } from 'zod'
+
+const errandCreateSchema = z.object({
+  title: z.string().min(3).max(200),
+  description: z.string().max(2000).optional(),
+  date: z.string().optional(),
+  status: z.string().optional(),
+  images: z.array(z.string()).optional(),
+  is_public: z.boolean().optional(),
+  user_id: z.string().optional(),
+})
+
+const errandUpdateSchema = errandCreateSchema.partial().extend({ id: z.string().optional() })
 
 // In-memory store for scaffold fallback. Replace entirely with database calls in production.
 let MOCK_ERRANDS: any[] = []
@@ -29,7 +42,12 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json()
+    const raw = await req.json()
+    const parsed = errandCreateSchema.safeParse(raw)
+    if (!parsed.success) {
+      return NextResponse.json({ ok: false, error: 'Validation failed', details: parsed.error.flatten() }, { status: 422 })
+    }
+    const body = parsed.data
     const newErrand = { id: String(Date.now()), ...body, status: body.status ?? 'posted', created_at: new Date().toISOString() }
 
     if (hasServerSupabase() && supabaseServer) {
@@ -50,7 +68,12 @@ export async function PUT(req: Request) {
     const url = new URL(req.url)
     const id = url.searchParams.get('id')
     if (!id) return NextResponse.json({ ok: false, error: 'Missing id' }, { status: 400 })
-    const body = await req.json()
+    const raw = await req.json()
+    const parsed = errandUpdateSchema.safeParse(raw)
+    if (!parsed.success) {
+      return NextResponse.json({ ok: false, error: 'Validation failed', details: parsed.error.flatten() }, { status: 422 })
+    }
+    const body = parsed.data
 
     if (hasServerSupabase() && supabaseServer) {
       const { data, error } = await supabaseServer.from('errands').update({ ...body, updated_at: new Date().toISOString() }).eq('id', id).select().single()
