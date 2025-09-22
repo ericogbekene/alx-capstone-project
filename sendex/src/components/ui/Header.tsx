@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export default function Header() {
   return (
-    <header className="bg-[--brand] text-white shadow-md sticky top-0 z-40">
+    <header className="bg-[--brand] text-gray-500 shadow-md sticky top-0 z-40">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link href="/" className="font-extrabold text-xl tracking-tight">Sendex</Link>
         <nav className="space-x-6 flex items-center">

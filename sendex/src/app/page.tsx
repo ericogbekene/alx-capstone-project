@@ -1,9 +1,8 @@
 import { Button } from '@/components/button'
-//import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/card'
+import { Input } from '@/components/input'
 import { RegisterForm } from '@/components/auth/RegisterForm'
-import { LoginForm } from '@/components/auth/LoginForm'
+import LoginForm from '@/components/auth/LoginForm'
 
 
 

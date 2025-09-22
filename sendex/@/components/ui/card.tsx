@@ -77,3 +77,7 @@ const CardFooter = React.forwardRef<
 CardFooter.displayName = "CardFooter"
 
 export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+// The Card component is exported in the following line:
+// export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+// So as long as Card is defined above, it is properly exported.
+// No changes needed.
