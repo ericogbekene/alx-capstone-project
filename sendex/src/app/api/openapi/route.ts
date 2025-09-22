@@ -84,6 +84,27 @@ export async function GET() {
           }
         }
       },
+      '/api/errands/all': {
+        get: {
+          summary: 'List all errands',
+          responses: {
+            '200': {
+              description: 'List of all errands',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      ok: { type: 'boolean' },
+                      errands: { type: 'array', items: { $ref: '#/components/schemas/Errand' } }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       '/api/messages': {
         get: {
           summary: 'List messages',
