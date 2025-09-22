@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from 'react'
 import { useErrands } from '@/hooks/use-errands'
 import ErrandList from '@/components/errands/ErrandList'

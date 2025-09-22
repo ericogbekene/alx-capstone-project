@@ -1,5 +1,8 @@
 import './globals.css'
 import React from 'react'
+import Header from '@/components/ui/Header'
+import Footer from '@/components/ui/Footer'
+import { cn } from '@/lib/utils'
 
 export const metadata = {
   title: 'Sendex',
@@ -8,11 +11,11 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body>
-        <div className="min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">
-          {children}
-        </div>
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn("min-h-screen bg-background font-sans antialiased")}>
+        <Header />
+        <main className="max-w-6xl mx-auto px-6 py-8">{children}</main>
+        <Footer />
       </body>
     </html>
   )

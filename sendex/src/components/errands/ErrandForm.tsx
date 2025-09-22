@@ -2,7 +2,6 @@
 
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
-import { uploadImage } from '@/lib/storage'
 import { useErrands } from '@/hooks/use-errands'
 import type { Errand } from '@/types/errand'
 
@@ -31,7 +30,10 @@ export default function ErrandForm({ initial, onDone }: Props) {
     try {
       let imagePath = null
       if (image) {
-        imagePath = await uploadImage(image)
+        const mod = await import('@/lib/storage')
+        if (mod && mod.uploadImage) {
+          imagePath = await mod.uploadImage(image)
+        }
       }
       if (initial?.id) {
         const updated = await updateErrand(initial.id, { title, description, images: imagePath ? [imagePath] : undefined })
